@@ -21,8 +21,19 @@ angular.module('ui.bootstrap.timepicker', [])
         return; // do nothing if no ng-model
       }
 
-      var selected = new Date(),
+      var close, selected = new Date(),
           meridians = angular.isDefined(attrs.meridians) ? scope.$parent.$eval(attrs.meridians) : timepickerConfig.meridians || $locale.DATETIME_FORMATS.AMPMS;
+
+      scope.closeable = false;
+      if (attrs.close)
+        close = attrs.close;
+
+      if(close) {
+        scope.closeable = true;
+        scope.close = function() {
+          $parse(close)(scope.$parent);
+        };
+      }
 
       var hourStep = timepickerConfig.hourStep;
       if (attrs.hourStep) {
