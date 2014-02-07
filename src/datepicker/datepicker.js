@@ -379,10 +379,8 @@ function ($compile, $parse, $document, $position, dateFilter, datepickerPopupCon
         }
       };
 
-      element.bind('input change keyup', function() {
-        scope.$apply(function() {
-          scope.date = ngModel.$modelValue;
-        });
+      ngModel.$viewChangeListeners.push(function() {
+        scope.date = ngModel.$modelValue;
       });
 
       // Outter change
