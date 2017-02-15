@@ -410,6 +410,32 @@ function ($compile, $parse, $document, $position, dateFilter, datepickerPopupCon
         datepickerEl.attr('date-disabled', attrs.dateDisabled);
       }
 
+      function updateTodayButtonDisabled() {
+        var now = new Date();
+
+        if (scope.min) {
+          var min = new Date(scope.min);
+
+          if (now < min) {
+            scope.todayButtonDisabled = true;
+            return;
+          }
+        }
+
+        if (scope.max) {
+          var max = new Date(scope.max);
+
+          if (now > max) {
+            scope.todayButtonDisabled = true;
+            return;
+          }
+        }
+
+        scope.todayButtonDisabled = false;
+      }
+      scope.$watch('min', updateTodayButtonDisabled);
+      scope.$watch('max', updateTodayButtonDisabled);
+
       function updatePosition() {
         scope.position = appendToBody ? $position.offset(element) : $position.position(element);
         scope.position.top = scope.position.top + element.prop('offsetHeight');
